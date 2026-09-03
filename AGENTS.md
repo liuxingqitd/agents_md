@@ -1,4 +1,3 @@
-## 工作流编排（Workflow Orchestration）
 
 ### 1. 默认进入 Plan 模式（Plan Node Default）
 
@@ -28,18 +27,7 @@
 
 ---
 
-### 4. 强制 Pull Request 与人工合并（Mandatory PR & Human Merge）
-
-- **所有代码修改都必须通过 Pull Request 进入主分支**，包括源代码、脚本、测试、构建配置、基础设施代码和仅一行的修改；不得因为改动简单、紧急或由用户口头要求而绕过 PR。
-- 开始修改前，先确认默认分支和当前工作区状态；从非默认分支完成修改、验证、提交并推送，然后创建 PR。禁止直接向 `main`、`master` 或仓库的其他默认分支提交或推送代码。
-- PR 必须写明改动摘要、验证证据、潜在风险与回滚方式。没有通过与改动风险相匹配的测试或检查时，不得把 PR 标记为可审核。
-- **只有人工完成审核并手动合并后，代码才能进入主分支。** Agent 不得批准自己的 PR，不得启用或执行自动合并，不得代替人工点击合并，也不得在本地把功能分支合并回主分支后推送。
-- 创建 PR 后，Agent 的交付状态必须是“等待人工审核/合并”，不能声称已经进入主分支。需要继续处理审核意见时，在同一 PR 分支追加提交并更新验证结果。
-- 如果仓库缺少远端、GitHub 认证失效、没有创建 PR 的权限，或当前改动无法安全分离到独立分支，必须停止在提交或推送之前，明确报告阻塞并请求用户处理；不得用直接提交主分支、补丁文件或其他方式规避 PR 流程。
-
----
-
-### 5. 追求优雅（Demand Elegance，平衡）
+### 4. 追求优雅（Demand Elegance，平衡）
 
 - 对于非简单修改，先停下来问：  
   > “有没有更优雅的实现方式？”  
@@ -52,16 +40,15 @@
 - 
 ---
 
-### 6. 自动化修 Bug（Autonomous Bug Fixing）
+### 5. 自动化修 Bug（Autonomous Bug Fixing）
 
 - 当收到 Bug 报告时：**直接修复，不要等待手把手指导**  
 - 查看 **日志、错误信息、失败的测试**，然后解决问题  
 - **不要要求用户进行上下文切换**  
 - 发现 CI 测试失败时，**主动修复，而不是等待指示**
 
----
 
-# 核心原则（Core Principles）
+### 6. 核心原则（Core Principles）
 
 - **Simplicity First（简单优先）**  
   每一次改动都尽可能简单，只影响最少代码
@@ -72,11 +59,8 @@
 - **Minimal Impact（最小影响）**  
   只修改必要部分，避免引入新的 Bug
 
-- **统一 Skill 安装目录（Single Skill Installation Directory）**  
-  所有个人 Skill 必须安装到 `~/.agents/skills`，不得安装到 `~/.codex/skills`。安装或更新前，必须同时检查 `~/.agents/skills` 与 `~/.codex/skills` 是否存在同名目录或相同 `name` 的 Skill；发现重复时，保留用户指定或最近更新且内容完整的一份，并清理另一份，避免同一 Skill 被重复注册。
+- **统一 Skill 安装目录**  
+  所有个人 Skill 必须安装到 `~/.agents/skills`，不得安装到 `~/.codex/skills`。
   
-  `~/.agents/skills/<skill-name>` 同时是该个人 Skill 的唯一源码基准与 Git 操作基准。检查改动、创建提交、配置远端和推送时，必须从这个实际 Skill 目录解析 Git 仓库，不得以 `~/.codex/skills`、临时 staging、workspace snapshot、package-source 或其他副本代替。若该目录是符号链接，先解析真实路径；若该目录不是 Git 仓库，必须明确报告并基于该目录建立或关联仓库，禁止猜测其他目录、仓库名或 owner。
-  
-  GitHub 代码提交与推送默认优先使用 GitHub CLI（`gh`）和原生 `git`。Codex GitHub 插件、浏览器登录态与 `gh` CLI 使用彼此独立的认证，不能互相推断或替代；执行前应分别核验。`gh` 的长期认证应写入系统安全凭据存储，不依赖仅在单次 shell 中存在的 `GH_TOKEN` / `GITHUB_TOKEN` 环境变量。
+  GitHub 代码提交与推送默认优先使用 GitHub CLI（`gh`）和原生 `git`。代码推送必须以PR的形式，人工review之后合并。
 
-  在 macOS 上，所有 `gh` CLI 命令都必须直接以沙箱外权限运行，以便读取系统 Keychain；不要先在沙箱内运行 `gh auth status`。沙箱内出现 `token invalid` 不能作为认证失效依据，也不得据此要求用户重新登录。先以沙箱外权限运行 `gh auth status -h github.com`：若显示 Keychain 中的账号有效，直接继续当前 GitHub 工作流，不向用户索要授权；只有这次沙箱外检查也失败时，才报告认证阻塞并请求重新登录。权限规则使用最小命令前缀，不得为省事放行整个 `gh`、`git push` 或其他可执行破坏性操作的宽泛前缀。
