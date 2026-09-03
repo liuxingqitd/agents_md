@@ -64,3 +64,10 @@
   
   GitHub 代码提交与推送默认优先使用 GitHub CLI（`gh`）和原生 `git`。代码推送必须以PR的形式，人工review之后合并。
 
+
+### 7. Obsidian操作说明
+
+  - Obsidian默认的 vault路径 `/Users/liuxingqi/Documents/Obsidian`
+  - 在没有明确说明的情况下，所有写入的内容必须放在`10.收集箱`的根目录下
+  - 在没有明确说明的情况下，禁止自动删除任何文件
+
