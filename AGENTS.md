@@ -61,8 +61,6 @@
 
 - **统一 Skill 安装目录**  
   所有个人 Skill 必须安装到 `~/.agents/skills`，不得安装到 `~/.codex/skills`。
-  
-  GitHub 代码提交与推送默认优先使用 GitHub CLI（`gh`）和原生 `git`。代码推送必须以PR的形式，人工review之后合并。
 
 
 ### 7. Obsidian操作说明
@@ -70,4 +68,12 @@
   - Obsidian默认的 vault路径 `/Users/liuxingqi/Documents/Obsidian`
   - 在没有明确说明的情况下，所有写入的内容必须放在`10.收集箱`的根目录下
   - 在没有明确说明的情况下，禁止自动删除任何文件
+
+### 8. Github/Gitlab操作说明
+
+  - 本地存在多种环境：GitHub是属于公网访问的，Gitlab是合作公司内网才能访问的，codeup是阿里云提供的代码托管服务
+  - 只有Github才需要自动创建PR
+  - Gitlab和codeup只需要推送分支即可，禁止自动创建PR
+  - GitHub 代码提交与推送默认优先使用 GitHub CLI（`gh`）和原生 `git`
+  - commit message 和 PR 描述必须简洁和描述重点，且尽量用中文
 
